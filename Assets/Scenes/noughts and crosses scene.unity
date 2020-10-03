@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588ad72f5a3a6544fb9e7c10aee8088b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 4
+  gridSize: 3
   gridSpacing: 2.25
   gridPositions: []
   worldPositions: []

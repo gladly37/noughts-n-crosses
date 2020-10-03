@@ -38,8 +38,8 @@ public class gridManager : MonoBehaviour
                 gridPositions[arrayIndex] = new Vector2(x, y);
                 worldPositions[arrayIndex] = new Vector2(x + x * gridSpacing, y + y * gridSpacing);
                 GameObject newClickDetector = Instantiate(ClickDetector, worldPositions[arrayIndex], Quaternion.identity);
-                newClickDetector = gridTiles[arrayIndex];
-                //newClickDetector.name = arrayIndex.ToString();
+                newClickDetector.name = arrayIndex.ToString();
+                gridTiles[arrayIndex] = newClickDetector;
                 clickDetection M_clickDetection = newClickDetector.GetComponent<clickDetection>();
                 M_clickDetection.indexInArray = arrayIndex;
                 M_clickDetection.tilePositionToGrid = gridPositions[arrayIndex];
@@ -47,9 +47,9 @@ public class gridManager : MonoBehaviour
         }
     }
 
-    /*public void checkForWin(int indexInManagerArrays)
+    public void checkForWin(int indexInManagerArrays)
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i <= 7; i++)
         {
             try
             {
@@ -133,5 +133,5 @@ public class gridManager : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
 }

@@ -42,7 +42,7 @@ public class clickDetection : MonoBehaviour
                     Instantiate(O,transform.position, Quaternion.identity);
                     isAnO = true;
                 }
-                //grid.checkForWin(indexInArray);
+                grid.checkForWin(indexInArray);
                 keepTrack.swapTurn();
             }
         }
