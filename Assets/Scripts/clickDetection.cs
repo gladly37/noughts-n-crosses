@@ -24,7 +24,7 @@ public class clickDetection : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !this.wasClicked)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !wasClicked)
         {
             Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             RaycastHit2D hit2D = Physics2D.Raycast(rayPos, Vector2.zero, 0.01f);
@@ -45,6 +45,11 @@ public class clickDetection : MonoBehaviour
                 grid.checkForWin(indexInArray);
                 keepTrack.swapTurn();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && wasClicked)
+        {
+            grid.checkForWin(indexInArray);
         }
     }
 }

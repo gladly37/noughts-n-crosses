@@ -20,5 +20,6 @@ public class keepTrackOfTurn : MonoBehaviour
     public void swapTurn()
     {
         xTurn = !xTurn;
+
     }
 }
