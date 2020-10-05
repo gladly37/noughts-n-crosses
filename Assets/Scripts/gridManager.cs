@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class gridManager : MonoBehaviour
 {
-    [Range(3,9)]
+    [Range(3,100)]
     public int gridSize;
     [Range(0,10)]
     public float gridSpacing;
     public Vector2[] gridPositions;
     public Vector2[] worldPositions;
+    public Vector3 clickDetectorPredeterminedScale;
+    public bool gameOver = false;
     public GameObject[] gridTiles;
     [Space]
+    public int MovesMade = 0;
     public GameObject ClickDetector;
+    public GameObject lastXPlaced;
+    public GameObject lastOPlaced;
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = Camera.main.ScreenToWorldPoint(Vector3.zero);
         gridPositions = new Vector2[gridSize * gridSize];
         worldPositions = new Vector2[gridSize * gridSize];
         gridTiles = new GameObject[gridSize * gridSize];
         initiateGrid(gridSize);
+        DetermineCameraSize();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void initiateGrid(int sizeOfGrid)
     {
         for (int x = 0; x < sizeOfGrid; x++)
@@ -37,7 +37,7 @@ public class gridManager : MonoBehaviour
                 int arrayIndex = sizeOfGrid * x + y;
                 gridPositions[arrayIndex] = new Vector2(x, y);
                 worldPositions[arrayIndex] = new Vector2(x + x * gridSpacing, y + y * gridSpacing);
-                GameObject newClickDetector = Instantiate(ClickDetector, worldPositions[arrayIndex], Quaternion.identity);
+                GameObject newClickDetector = Instantiate(ClickDetector, worldPositions[arrayIndex], Quaternion.identity, transform);
                 newClickDetector.name = arrayIndex.ToString();
                 gridTiles[arrayIndex] = newClickDetector;
                 clickDetection M_clickDetection = newClickDetector.GetComponent<clickDetection>();
@@ -118,6 +118,8 @@ public class gridManager : MonoBehaviour
                 if (v == gridSize-1)
                 {
                     Debug.LogWarning("X Won");
+                    gameOver = true;
+                    GameObject.Find("Canvas").GetComponent<endGame>().XWonEnd();
                 }
             }   
             if (originalOBool)
@@ -130,8 +132,29 @@ public class gridManager : MonoBehaviour
                 if (v == gridSize - 1)
                 {
                     Debug.LogWarning("O Won");
+                    gameOver = true;
+                    GameObject.Find("Canvas").GetComponent<endGame>().OWonEnd();
                 }
             }
         }
+    }
+
+    public void AddTry()
+    {
+        MovesMade += 1;
+        if (MovesMade >= gridSize * gridSize)
+        {
+            gameOver = true;
+            GameObject.Find("Canvas").GetComponent<endGame>().NoOneWonEnd();
+        }
+    }
+    
+    public void DetermineCameraSize()
+    {
+        float floatGridSize = gridSize;
+        float cameraDist = worldPositions[worldPositions.Length - 1].x / 2;
+        Debug.Log(cameraDist);
+        Camera.main.orthographicSize = (floatGridSize -0.75f) * gridSpacing ;
+        Camera.main.transform.position = new Vector3(worldPositions[0].x + cameraDist, worldPositions[0].y + cameraDist, -1);
     }
 }

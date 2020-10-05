@@ -122,6 +122,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4800784700ced84482e98f2e4a1f3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilePositionToGrid: {x: 0, y: 0}
+  indexInArray: 0
   wasClicked: 0
+  isAnX: 0
+  isAnO: 0
+  keepTrack: {fileID: 0}
+  grid: {fileID: 0}
   X: {fileID: 8772285410176899395, guid: 0a3aa3119eeed55439209433e3cc0f91, type: 3}
   O: {fileID: 8463012840377360482, guid: a02152ccf3b312146b5a05b4f8bb478d, type: 3}

@@ -14,17 +14,17 @@ public class clickDetection : MonoBehaviour
     public GameObject X;
     public GameObject O;
     
-    void Awake()
+    void Start()
     {
-        grid = GameObject.Find("Grid").GetComponent<gridManager>();
-        keepTrack = GameObject.Find("gameManager").GetComponent<keepTrackOfTurn>();
+        grid = transform.parent.GetComponent<gridManager>();
+        keepTrack = transform.parent.GetComponent<keepTrackOfTurn>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !wasClicked)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !wasClicked && !grid.gameOver && keepTrack.xTurn)
         {
             Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             RaycastHit2D hit2D = Physics2D.Raycast(rayPos, Vector2.zero, 0.01f);
@@ -34,22 +34,35 @@ public class clickDetection : MonoBehaviour
                 wasClicked = true;
                 if (keepTrack.xTurn)
                 {
-                    Instantiate(X, transform.position, X.transform.rotation);
-                    isAnX = true;
-                }
-                else
-                {
-                    Instantiate(O,transform.position, Quaternion.identity);
-                    isAnO = true;
+                    placeX();
                 }
                 grid.checkForWin(indexInArray);
                 keepTrack.swapTurn();
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && wasClicked)
+        if (wasClicked && !grid.gameOver)
         {
             grid.checkForWin(indexInArray);
         }
+    }
+
+    public void placeX()
+    {
+        GameObject lastX = Instantiate(X, transform.position, X.transform.rotation, transform);
+        isAnX = true;
+        grid.lastXPlaced = gameObject;
+        grid.AddTry();
+    }
+
+    public void placeO()
+    {
+        GameObject lastO = Instantiate(O, transform.position, Quaternion.identity, transform);
+        isAnO = true;
+        wasClicked = true;
+        grid.lastOPlaced = lastO;
+        grid.checkForWin(indexInArray);
+        keepTrack.swapTurn();
+        grid.AddTry();
     }
 }
